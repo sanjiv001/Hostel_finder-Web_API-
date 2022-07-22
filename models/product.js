@@ -1,5 +1,4 @@
 const mongoose = require("mongoose");
-
 const productSchema = mongoose.Schema({
   name: {
     type: String,
@@ -29,11 +28,11 @@ const productSchema = mongoose.Schema({
     type: Number,
     default: 0,
   },
-  category: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "Category", // this will take Category id not all object
-    required: true,
-  },
+  // category: {
+  //   type: mongoose.Schema.Types.ObjectId,
+  //   ref: "Category", // this will take Category id not all object
+  //   required: true,
+  // },
   countInStock: {
     type: Number,
     required: true,
