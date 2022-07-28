@@ -6,7 +6,7 @@ const { Product } = require("../models/product");
 const mongoose = require("mongoose");
 const jwt = require("../middleware/jwt");
 const multer = require("multer");
-const { findOneAndRemove } = require("../models/order-item");
+// const { findOneAndRemove } = require("../models/order-item");
 // router.get("/", async (req, res) => {
 //   // const productList = await Product.find().select("name image -_id"); // if you want the specific columns
 //   const productList = await Product.find();
@@ -40,18 +40,18 @@ const FILE_TYPE_MAP = {
 };
 
 //Upload image to server
-var storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    const isValid = FILE_TYPE_MAP[file.mimetype];
-    //validate weather the file is a valid image
-    if (!isValid) cb(new Error("Invalid file type"), "./public/uploads");
-    else cb(null,"./public/uploads"); // path where we upload an image
-  },
-  filename: function (req, file, cb) {
-    const extension = FILE_TYPE_MAP[file.mimetype];
-    cb(null, `IMG-${Date.now()}.${extension}`);
-  },
-});
+// var storage = multer.diskStorage({
+//   destination: function (req, file, cb) {
+//     const isValid = FILE_TYPE_MAP[file.mimetype];
+//     //validate weather the file is a valid image
+//     if (!isValid) cb(new Error("Invalid file type"), "./public/uploads");
+//     else cb(null,"./public/uploads"); // path where we upload an image
+//   },
+//   filename: function (req, file, cb) {
+//     const extension = FILE_TYPE_MAP[file.mimetype];
+//     cb(null, `IMG-${Date.now()}.${extension}`);
+//   },
+// });
 
 var uploadOptions = multer({ storage: storage });
 
