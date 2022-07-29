@@ -1,3 +1,5 @@
+
+
 const express = require("express");
 const { Category } = require("../models/category");
 const router = express.Router();
@@ -6,16 +8,8 @@ const { Product } = require("../models/product");
 const mongoose = require("mongoose");
 const jwt = require("../middleware/jwt");
 const multer = require("multer");
-// const { findOneAndRemove } = require("../models/order-item");
-// router.get("/", async (req, res) => {
-//   // const productList = await Product.find().select("name image -_id"); // if you want the specific columns
-//   const productList = await Product.find();
-//   if (!productList) {
-//     res.status(500).json({ success: false });
-//   } else {
-//     res.status(201).json({ success: true, data: productList });
-//   }
-// });
+const { findOneAndRemove } = require("../models/order-item");
+
 
 router.get("/:id",  async (req, res) => {
   const product = await Product.findById(req.params.id).populate("category"); // display category in product
@@ -40,18 +34,18 @@ const FILE_TYPE_MAP = {
 };
 
 //Upload image to server
-// var storage = multer.diskStorage({
-//   destination: function (req, file, cb) {
-//     const isValid = FILE_TYPE_MAP[file.mimetype];
-//     //validate weather the file is a valid image
-//     if (!isValid) cb(new Error("Invalid file type"), "./public/uploads");
-//     else cb(null,"./public/uploads"); // path where we upload an image
-//   },
-//   filename: function (req, file, cb) {
-//     const extension = FILE_TYPE_MAP[file.mimetype];
-//     cb(null, `IMG-${Date.now()}.${extension}`);
-//   },
-// });
+var storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    const isValid = FILE_TYPE_MAP[file.mimetype];
+    //validate weather the file is a valid image
+    if (!isValid) cb(new Error("Invalid file type"), "./public/uploads");
+    else cb(null,"./public/uploads"); // path where we upload an image
+  },
+  filename: function (req, file, cb) {
+    const extension = FILE_TYPE_MAP[file.mimetype];
+    cb(null, `IMG-${Date.now()}.${extension}`);
+  },
+});
 
 var uploadOptions = multer({ storage: storage });
 
@@ -75,39 +69,18 @@ router.post("/", uploadOptions.single("image"), async (req, res) => {
   if (!category) {
     return res.status(400).send("Invalid category");
   }
-  // else if(!file){   
-    
-  //   return res.status(400).send("Please upload an image");
-  // }  
+ 
   else if(file){
-    // Get the filename from multer
     const fileName = req.file.filename;
    
-    // req.protocol = "http";
-    // req.get = localhost:3000/
+   
     let basePath;
     if (req.get("host").includes("10.0.2.2")) {
       basePath = `${req.protocol}://${req.get("host").replace("10.0.2.2","localhost")}/public/uploads/`;
     }else{
       basePath = `${req.protocol}://${req.get("host")}/public/uploads/`;
     }
-    // const basePath = `${req.protocol}://${req.get("host")}/public/uploads/`;
-  //  const basePath = `http://localhost:3000/public/uploads/`;
     product.image = basePath + fileName;
-    
-    // const product = new Product({
-    //   name: req.body.name,
-    //   description: req.body.description,
-    //   richDescription: req.body.richDescription,
-    //   image: `${basePath}${fileName}`,
-    //   brand: req.body.brand,
-    //   price: req.body.price,
-    //   category: req.body.category,
-    //   countInStock: req.body.countInStock,
-    //   rating: req.body.rating,
-    //   numReviews: req.body.numReviews,
-    //   isFeatured: req.body.isFeatured,
-    // });
   }
     //You can use .then() and .catch() or you can use async and await
     await product
@@ -124,40 +97,6 @@ router.post("/", uploadOptions.single("image"), async (req, res) => {
   
 });
 
-// Add product without image
-// router.post("/", async (req, res) => {
-//   const category = await Category.findById(req.body.category);
-//   if (!category) {
-//     return res.status(400).send("Invalid category");
-//   } else {
-//     const product = new Product({
-//       name: req.body.name,
-//       description: req.body.description,
-//       richDescription: req.body.richDescription,
-//       image: req.body.image,
-//       brand: req.body.brand,
-//       price: req.body.price,
-//       category: req.body.category,
-//       countInStock: req.body.countInStock,
-//       rating: req.body.rating,
-//       numReviews: req.body.numReviews,
-//       isFeatured: req.body.isFeatured,
-//     });
-
-//     //You can use .then() and .catch() or you can use async and await
-//     await product
-//       .save()
-//       .then((createdProduct) => {
-//         res.status(201).json({ success: true, createdProduct });
-//       })
-//       .catch((err) => {
-//         res.status(500).json({
-//           error: err,
-//           success: false,
-//         });
-//       });
-//   }
-// });
 router.put("/:id", async (req, res) => {
   //If the :id is not in _id format then this message will be shown
   if (!mongoose.isValidObjectId(req.params.id)) {

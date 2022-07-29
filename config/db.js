@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-require('colors');
+require("colors");
 
 const connectDB = async () => {
   const conn = await mongoose.connect(process.env.CONNECTION_STRING, {
@@ -8,7 +8,6 @@ const connectDB = async () => {
     useFindAndModify: false,
     useUnifiedTopology: true,
     dbName: "Hostel_finder_Android",
-
   });
 
   console.log(
