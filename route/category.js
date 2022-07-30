@@ -8,6 +8,7 @@ router.get("/", async (req, res) => {
     res.status(500).json({
       success: false,
     });
+    
   } else {
     res.status(201).json({
       success: true,
@@ -61,6 +62,7 @@ router.delete("/:id", async (req, res) => {
           success: true,
           message: "Category deleted",
         });
+
       } else {
         res.status(400).json({
           success: false,

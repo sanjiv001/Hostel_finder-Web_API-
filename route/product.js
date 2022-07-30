@@ -1,5 +1,5 @@
 
-
+const jsonwebtoken = require('jsonwebtoken');
 const express = require("express");
 const { Category } = require("../models/category");
 const router = express.Router();
@@ -50,7 +50,7 @@ var storage = multer.diskStorage({
 var uploadOptions = multer({ storage: storage });
 
 //Upload a single image to server
-router.post("/", uploadOptions.single("image"), async (req, res) => {
+router.post("/",jwt, uploadOptions.single("image"), async (req, res) => {
   const product = new Product({
     name: req.body.name,
     description: req.body.description,

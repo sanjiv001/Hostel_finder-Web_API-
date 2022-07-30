@@ -28,23 +28,22 @@ const productSchema = mongoose.Schema({
     type: Number,
     default: 0,
   },
-  // category: {
-  //   type: mongoose.Schema.Types.ObjectId,
-  //   ref: "Category", // this will take Category id not all object
-  //   required: true,
-  // },
-  countInStock: {
-    type: Number,
+  category: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Category", // this will take Category id not all object
     required: true,
-    min: 0,
-    max: 255,
+  },
+  countInStock: {
+    // type: Number,
+    // required: true,
+    // min: 0,
+    // max: 255,
   },
   rating: {
     type: Number,
     default: 0,
   },
   numReviews: {
-    type: Number,
     default: 0,
   },
   isFeatured: {

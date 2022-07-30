@@ -10,6 +10,7 @@ router.get("/", async (req, res) => {
   return res.json(userList);
 });
 
+
 router.post("/", async (req, res) => {
   const user = new User({
     email: req.body.email,
@@ -24,7 +25,7 @@ router.post("/", async (req, res) => {
   await user
     .save()
     .then(() => {
-      res.json({
+      res.status(200).json({
         success: true,
       });
     })
