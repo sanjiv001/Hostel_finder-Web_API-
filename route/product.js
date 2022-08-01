@@ -1,5 +1,4 @@
 
-const jsonwebtoken = require('jsonwebtoken');
 const express = require("express");
 const { Category } = require("../models/category");
 const router = express.Router();
@@ -48,32 +47,25 @@ var storage = multer.diskStorage({
 });
 
 var uploadOptions = multer({ storage: storage });
-
-//Upload a single image to server
-router.post("/",jwt, uploadOptions.single("image"), async (req, res) => {
+//Upload a single image to se`rver
+router.post("/", uploadOptions.single("image"), async (req, res) => {
   const product = new Product({
     name: req.body.name,
     description: req.body.description,
     richDescription: req.body.richDescription,
-    // image: `${basePath}${fileName}`,
+  //  image: `${basePath}${fileName}`,
     brand: req.body.brand,
     price: req.body.price,
-    category: req.body.category,
+    //category: req.body.category,
     countInStock: req.body.countInStock,
     rating: req.body.rating,
     numReviews: req.body.numReviews,
     isFeatured: req.body.isFeatured,
   });
-  const category = await Category.findById(req.body.category);
+
   const file = req.file;
-  if (!category) {
-    return res.status(400).send("Invalid category");
-  }
- 
-  else if(file){
+  if(file){
     const fileName = req.file.filename;
-   
-   
     let basePath;
     if (req.get("host").includes("10.0.2.2")) {
       basePath = `${req.protocol}://${req.get("host").replace("10.0.2.2","localhost")}/public/uploads/`;
@@ -94,7 +86,6 @@ router.post("/",jwt, uploadOptions.single("image"), async (req, res) => {
           success: false,
         });
       });
-  
 });
 
 router.put("/:id", async (req, res) => {

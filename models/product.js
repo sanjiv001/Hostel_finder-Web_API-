@@ -16,32 +16,27 @@ const productSchema = mongoose.Schema({
     type: String,
     default: "",
   },
-  images: [
-    {
-      type: String,
-    },
-  ],
+  // images: [
+  //   {
+  //     type: String,
+  //   },
+  // ],
   brand: {
     type: String,
   },
   price: {
-    type: Number,
+    type: String,
     default: 0,
   },
-  category: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "Category", // this will take Category id not all object
-    required: true,
-  },
   countInStock: {
-    // type: Number,
+     type: String,
     // required: true,
     // min: 0,
     // max: 255,
   },
   rating: {
-    type: Number,
-    default: 0,
+    type: String,
+    
   },
   numReviews: {
     default: 0,
