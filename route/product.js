@@ -1,4 +1,3 @@
-
 const express = require("express");
 const { Category } = require("../models/category");
 const router = express.Router();
@@ -166,6 +165,7 @@ router.get("/get/count/", async (req, res) => {
 
 // Get featured product , you have to pass how many featured product you want to show
 // :count means how many data we want
+
 router.get("/get/featured/:count", async (req, res) => {
   const count = req.params.count ? req.params.count : 0;
   console.log(count);
@@ -188,9 +188,7 @@ router.get("/", async (req, res) => {
   if (req.query.categories) {
     categories = { category: req.query.categories.split(",") };
   }
-
   const productList = await Product.find(categories).populate("category");
-
   if (!productList) {
     res.status(500).json({ success: false });
   } else {
